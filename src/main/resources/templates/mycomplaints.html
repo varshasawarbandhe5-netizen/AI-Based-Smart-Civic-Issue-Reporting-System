@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>My Complaints</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>My Complaints</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-dark">
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Title</th>
+
+                    <th>Category</th>
+
+                    <th>Location</th>
+
+                    <th>Status</th>
+
+                    <th>AI Category</th>
+
+                    <th>AI Priority</th>
+
+                    <th>Duplicate Warning</th>
+
+                    <th>Image</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr th:each="complaint : ${complaints}">
+
+                    <td th:text="${complaint.id}"></td>
+
+                    <td th:text="${complaint.title}"></td>
+
+                    <td th:text="${complaint.category}"></td>
+
+                    <td th:text="${complaint.location}"></td>
+
+                    <td th:text="${complaint.status}"></td>
+
+                    <td th:text="${complaint.aiCategory}"></td>
+
+                    <td th:text="${complaint.aiPriority}"></td>
+
+                    <td>
+
+                        <span th:if="${complaint.duplicateWarning == 'No Duplicate'}"
+                              class="badge bg-success">
+
+                            No Duplicate
+
+                        </span>
+
+                        <span th:if="${complaint.duplicateWarning == 'Similar Complaint Already Exists'}"
+                              class="badge bg-warning text-dark">
+
+                            Similar Complaint Already Exists
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <img th:if="${complaint.image != null}"
+                             th:src="@{'/uploads/' + ${complaint.image}}"
+                             width="120"
+                             height="90"
+                             class="img-thumbnail">
+
+                        <span th:if="${complaint.image == null}">
+                            No Image
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+            <a href="/dashboard"
+               class="btn btn-info">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+

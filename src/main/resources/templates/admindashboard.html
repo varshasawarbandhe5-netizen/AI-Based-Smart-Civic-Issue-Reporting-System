@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container-fluid mt-4">
+
+    <h2 class="text-center mb-4">
+        Admin Dashboard
+    </h2>
+
+
+    <!-- ==============================
+         STATISTICS
+         ============================== -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Total Complaints</h5>
+                    <h3 th:text="${totalComplaints}">0</h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Pending</h5>
+                    <h3 th:text="${pendingComplaints}">0</h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>In Progress</h5>
+                    <h3 th:text="${inProgressComplaints}">0</h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Resolved</h5>
+                    <h3 th:text="${resolvedComplaints}">0</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         COMPLAINT TABLE
+         ============================== -->
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-striped table-hover">
+
+                    <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Title</th>
+
+                        <th>Category</th>
+
+                        <th>Description</th>
+
+                        <th>AI Summary</th>
+
+                        <th>Location</th>
+
+                        <th>Image</th>
+
+                        <th>Status</th>
+
+                        <th>AI Category</th>
+
+                        <th>AI Priority</th>
+
+                        <th>AI Department</th>
+
+                        <th>Duplicate Warning</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    <tr th:each="complaint : ${complaints}">
+
+
+                        <!-- ID -->
+
+                        <td th:text="${complaint.id}">
+                            1
+                        </td>
+
+
+                        <!-- TITLE -->
+
+                        <td th:text="${complaint.title}">
+                            Title
+                        </td>
+
+
+                        <!-- CATEGORY -->
+
+                        <td th:text="${complaint.category}">
+                            Category
+                        </td>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <td style="min-width: 250px;"
+                            th:text="${complaint.description}">
+                            Description
+                        </td>
+
+
+                        <!-- ==============================
+                             AI SUMMARY
+                             ============================== -->
+
+                        <td style="min-width: 250px;">
+
+                            <span th:if="${complaint.aiSummary != null and !#strings.isEmpty(complaint.aiSummary)}"
+                                  th:text="${complaint.aiSummary}">
+
+                                AI Summary
+
+                            </span>
+
+
+                            <span th:if="${complaint.aiSummary == null or #strings.isEmpty(complaint.aiSummary)}"
+                                  class="text-muted">
+
+                                Summary not available
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- LOCATION -->
+
+                        <td th:text="${complaint.location}">
+                            Location
+                        </td>
+
+
+                        <!-- ==============================
+                             IMAGE
+                             ============================== -->
+
+                        <td>
+
+                            <div th:if="${complaint.image != null and !#strings.isEmpty(complaint.image)}">
+
+                                <a th:href="@{'/uploads/' + ${complaint.image}}"
+                                   target="_blank">
+
+                                    <img th:src="@{'/uploads/' + ${complaint.image}}"
+                                         width="100"
+                                         height="80"
+                                         style="object-fit: cover; border-radius: 8px; border: 1px solid #ddd;"
+                                         alt="Complaint Image">
+
+                                </a>
+
+                            </div>
+
+
+                            <span th:if="${complaint.image == null or #strings.isEmpty(complaint.image)}"
+                                  class="text-muted">
+
+                                No Image
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- STATUS -->
+
+                        <td>
+
+                            <span th:text="${complaint.status}">
+                                Pending
+                            </span>
+
+                        </td>
+
+
+                        <!-- AI CATEGORY -->
+
+                        <td th:text="${complaint.aiCategory}">
+                            -
+                        </td>
+
+
+                        <!-- AI PRIORITY -->
+
+                        <td th:text="${complaint.aiPriority}">
+                            -
+                        </td>
+
+
+                        <!-- AI DEPARTMENT -->
+
+                        <td th:text="${complaint.aiDepartment}">
+                            -
+                        </td>
+
+
+                        <!-- ==============================
+                             DUPLICATE WARNING
+                             ============================== -->
+
+                        <td>
+
+                            <span th:if="${complaint.duplicateWarning == 'No Duplicate'}"
+                                  class="badge bg-success">
+
+                                No Duplicate
+
+                            </span>
+
+
+                            <span th:if="${complaint.duplicateWarning == 'Similar Complaint Already Exists'}"
+                                  class="badge bg-warning text-dark">
+
+                                Similar Complaint Already Exists
+
+                            </span>
+
+
+                            <span th:if="${complaint.duplicateWarning == null}"
+                                  class="text-muted">
+
+                                -
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- ==============================
+                             ACTION
+                             ============================== -->
+
+                        <td>
+
+                            <!-- UPDATE STATUS -->
+
+                            <form action="/updatestatus"
+                                  method="post">
+
+                                <input type="hidden"
+                                       name="id"
+                                       th:value="${complaint.id}">
+
+
+                                <select class="form-select mb-2"
+                                        name="status">
+
+                                    <option value="Pending"
+                                            th:selected="${complaint.status == 'Pending'}">
+
+                                        Pending
+
+                                    </option>
+
+
+                                    <option value="In Progress"
+                                            th:selected="${complaint.status == 'In Progress'}">
+
+                                        In Progress
+
+                                    </option>
+
+
+                                    <option value="Resolved"
+                                            th:selected="${complaint.status == 'Resolved'}">
+
+                                        Resolved
+
+                                    </option>
+
+                                </select>
+
+
+                                <button type="submit"
+                                        class="btn btn-success btn-sm">
+
+                                    Update
+
+                                </button>
+
+                            </form>
+
+
+                            <!-- DELETE COMPLAINT -->
+
+                            <form action="/deleteComplaint"
+                                  method="post"
+                                  class="mt-2"
+                                  onsubmit="return confirm('Are you sure you want to delete this complaint?');">
+
+                                <input type="hidden"
+                                       name="id"
+                                       th:value="${complaint.id}">
+
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         HOME BUTTON
+         ============================== -->
+
+    <div class="mt-3 mb-4">
+
+        <a href="/"
+           class="btn btn-primary">
+
+            Home
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

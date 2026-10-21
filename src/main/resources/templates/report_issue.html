@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Report Issue</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+            <h3>Report Civic Issue</h3>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/report"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label>Title</label>
+                    <input type="text"
+                           name="title"
+                           class="form-control"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea name="description"
+                              class="form-control"
+                              rows="4"
+                              required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label>Category</label>
+
+                    <select name="category"
+                            class="form-control">
+
+                        <option>Road</option>
+                        <option>Garbage</option>
+                        <option>Water</option>
+                        <option>Street Light</option>
+                        <option>Drainage</option>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+                    <label>Location</label>
+
+                    <input type="text"
+                           name="location"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <!-- Image Upload -->
+
+                <div class="mb-3">
+
+                    <label>Upload Image</label>
+
+                    <input type="file"
+                           name="imageFile"
+                           class="form-control"
+                           accept="image/*">
+
+                </div>
+
+                <button class="btn btn-danger">
+                    Submit Complaint
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
